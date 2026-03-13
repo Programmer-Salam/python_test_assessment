@@ -1,0 +1,114 @@
+{
+    "info": {
+        "name": "Counsellor Notes API",
+        "description": "API for managing counsellor private notes against student applications.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create Note (Success)",
+            "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"authorName\": \"John Doe\",\n  \"authorEmail\": \"john@example.com\",\n  \"category\": \"General\",\n  \"content\": \"Discussed document requirements\",\n  \"isPinned\": true\n}"
+                },
+                "url": {"raw": "http://localhost:5000/api/applications/APP-123456/notes", "host": ["http://localhost:5000"], "path": ["api", "applications", "APP-123456", "notes"]}
+            }
+        },
+        {
+            "name": "Create Note (Error - Missing Fields)",
+            "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"authorName\": \"John Doe\"\n}"
+                },
+                "url": {"raw": "http://localhost:5000/api/applications/APP-123456/notes", "host": ["http://localhost:5000"], "path": ["api", "applications", "APP-123456", "notes"]}
+            }
+        },
+        {
+            "name": "List Notes (Success)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:5000/api/applications/APP-123456/notes?page=1&limit=10",
+                    "host": ["http://localhost:5000"],
+                    "path": ["api", "applications", "APP-123456", "notes"],
+                    "query": [{"key": "page", "value": "1"}, {"key": "limit", "value": "10"}]
+                }
+            }
+        },
+        {
+            "name": "List Notes (Error - Invalid App ID)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:5000/api/applications/INVALID/notes",
+                    "host": ["http://localhost:5000"],
+                    "path": ["api", "applications", "INVALID", "notes"]
+                }
+            }
+        },
+        {
+            "name": "Edit Note (Success)",
+            "request": {
+                "method": "PATCH",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"content\": \"Updated content discussion\",\n  \"isPinned\": false\n}"
+                },
+                "url": {"raw": "http://localhost:5000/api/applications/APP-123456/notes/REPLACE_NOTE_ID", "host": ["http://localhost:5000"], "path": ["api", "applications", "APP-123456", "notes", "REPLACE_NOTE_ID"]}
+            }
+        },
+        {
+            "name": "Edit Note (Error - Invalid Format Note ID)",
+            "request": {
+                "method": "PATCH",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"content\": \"Updated content discussion\"\n}"
+                },
+                "url": {"raw": "http://localhost:5000/api/applications/APP-123456/notes/INVALID_OBJECT_ID", "host": ["http://localhost:5000"], "path": ["api", "applications", "APP-123456", "notes", "INVALID_OBJECT_ID"]}
+            }
+        },
+        {
+            "name": "Delete Note (Success)",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {"raw": "http://localhost:5000/api/applications/APP-123456/notes/REPLACE_NOTE_ID", "host": ["http://localhost:5000"], "path": ["api", "applications", "APP-123456", "notes", "REPLACE_NOTE_ID"]}
+            }
+        },
+        {
+            "name": "Delete Note (Error - Invalid Note ID)",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {"raw": "http://localhost:5000/api/applications/APP-123456/notes/INVALID_ID", "host": ["http://localhost:5000"], "path": ["api", "applications", "APP-123456", "notes", "INVALID_ID"]}
+            }
+        },
+        {
+            "name": "Get Summary (Success)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {"raw": "http://localhost:5000/api/applications/APP-123456/notes/summary", "host": ["http://localhost:5000"], "path": ["api", "applications", "APP-123456", "notes", "summary"]}
+            }
+        },
+        {
+            "name": "Get Summary (Empty / No App ID)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {"raw": "http://localhost:5000/api/applications/NON_EXISTENT_APP/notes/summary", "host": ["http://localhost:5000"], "path": ["api", "applications", "NON_EXISTENT_APP", "notes", "summary"]}
+            }
+        }
+    ]
+}
