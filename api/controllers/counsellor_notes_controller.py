@@ -3,12 +3,13 @@ from utils.db import applications_collection, counsellor_notes_collection
 from bson import ObjectId
 from bson.errors import InvalidId
 from datetime import datetime, timezone
+from typing import Any
 
 def _get_now():
-    # Return ISO format string for current UTC time
     return datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
 
-def create_note(applicationId):
+# Post
+def create_note(applicationId): 
     data = request.get_json()
     if not data:
         return jsonify({"error": "Missing JSON request body"}), 400
@@ -84,9 +85,9 @@ def edit_note(applicationId, noteId):
     try:
         obj_id = ObjectId(noteId)
     except InvalidId:
-        return jsonify({"error": "Invalid noteId format"}), 400
+        return jsonify({"error": "Invalid noteId format"}), 400 
 
-    update_fields = {}
+    update_fields: dict[str, Any] = {}
     valid_fields = ["authorName", "authorEmail", "category", "content", "isPinned"]
 
     for field in valid_fields:

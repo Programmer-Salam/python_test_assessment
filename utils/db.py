@@ -8,3 +8,4 @@ db = client[db_name]
 
 applications_collection = db["applications"]
 counsellor_notes_collection = db["counsellor_notes"]
+users_collection = db["users"]

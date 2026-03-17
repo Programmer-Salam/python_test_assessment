@@ -1,30 +1,47 @@
 from flask import Blueprint
 from utils.auth import internal_required
-from app.controllers import counsellor_notes_controller
+from api.controllers import counsellor_notes_controller, user_controller
 
 api_bp = Blueprint('api_bp', __name__)
 
-# POST /applications/<applicationId>/notes
+# Users routes
+api_bp.route('/users', methods=['POST'])(
+    internal_required(user_controller.create_user)
+)
+
+api_bp.route('/users', methods=['GET'])(
+    internal_required(user_controller.get_users)
+)
+
+api_bp.route('/users/<userId>', methods=['GET'])(
+    internal_required(user_controller.get_user)
+)
+
+api_bp.route('/users/<userId>', methods=['PATCH'])(
+    internal_required(user_controller.edit_user)
+)
+
+api_bp.route('/users/<userId>', methods=['DELETE'])(
+    internal_required(user_controller.delete_user)
+)
+
+# Notes routes
 api_bp.route('/applications/<applicationId>/notes', methods=['POST'])(
     internal_required(counsellor_notes_controller.create_note)
 )
 
-# GET /applications/<applicationId>/notes
 api_bp.route('/applications/<applicationId>/notes', methods=['GET'])(
     internal_required(counsellor_notes_controller.get_notes)
 )
 
-# GET /applications/<applicationId>/notes/summary
 api_bp.route('/applications/<applicationId>/notes/summary', methods=['GET'])(
     internal_required(counsellor_notes_controller.get_notes_summary)
 )
 
-# PATCH /applications/<applicationId>/notes/<noteId>
 api_bp.route('/applications/<applicationId>/notes/<noteId>', methods=['PATCH'])(
     internal_required(counsellor_notes_controller.edit_note)
 )
 
-# DELETE /applications/<applicationId>/notes/<noteId>
 api_bp.route('/applications/<applicationId>/notes/<noteId>', methods=['DELETE'])(
     internal_required(counsellor_notes_controller.delete_note)
 )
